@@ -1,5 +1,6 @@
 package com.sparta.myselectshop.naver.dto;
 
+import com.sparta.myselectshop.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.json.JSONObject;
@@ -18,4 +19,5 @@ public class ItemDto {
         this.image = itemJson.getString("image");
         this.lprice = itemJson.getInt("lprice");
     }
+
 }
