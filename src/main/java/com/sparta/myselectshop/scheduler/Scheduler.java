@@ -5,13 +5,12 @@ import com.sparta.myselectshop.naver.dto.ItemDto;
 import com.sparta.myselectshop.naver.service.NaverApiService;
 import com.sparta.myselectshop.repository.ProductRepository;
 import com.sparta.myselectshop.service.ProductService;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j(topic = "Scheduler")
 @Component
@@ -23,8 +22,8 @@ public class Scheduler {
     private final ProductRepository productRepository;
 
     // 초, 분, 시, 일, 월, 주 순서
-    @Scheduled(cron = "*/10 * * * * *") // 10초
-//    @Scheduled(cron = "0 0 1 * * *") // 매일 새벽 1시
+//    @Scheduled(cron = "*/10 * * * * *") // 10초
+    @Scheduled(cron = "0 0 1 * * *") // 매일 새벽 1시
     public void updatePrice() throws InterruptedException {
         log.info("가격 업데이트 실행");
         List<Product> productList = productRepository.findAll();
