@@ -41,6 +41,11 @@ public class ProductController {
         return productService.createProduct(requestDto, userDetails.getUser());
     }
 
+    @PostMapping("/products/{productId}/folder")
+    public void addFolder(@PathVariable Long productId, @RequestParam Long folderId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        productService.addFolder(productId, folderId, userDetails.getUser());
+    }
+
     @PutMapping("/products/{id}")
     public ProductResponseDto updateProduct(@PathVariable Long id,
         @RequestBody ProductMypriceRequestDto requestDto) {
