@@ -57,9 +57,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductResponseDto> getProducts(User user, int page, int size, String sortBy,
         boolean isAsc) {
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = getPageable(page, size, sortBy, isAsc);
 
         UserRoleEnum userRoleEnum = user.getRole();
 
@@ -98,5 +96,18 @@ public class ProductService {
         }
 
         productFolderRepository.save(new ProductFolder(product, folder));
+    }
+
+    public Page<ProductResponseDto> getProductsInFolder(Long folderId, int page, int size, String sortBy, boolean isAsc, User user) {
+        Pageable pageable = getPageable(page, size, sortBy, isAsc);
+
+        return productRepository.findAllByUserAndProductFolderList_FolderId(user, folderId,
+            pageable).map(ProductResponseDto::new);
+    }
+
+    private static Pageable getPageable(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        return PageRequest.of(page, size, sort);
     }
 }
